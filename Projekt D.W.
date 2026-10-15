@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let inputext = "";
+let FinalResult = splitext(inputext).split(".");
+
+fetch("przetwarzanie.php", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+sentences: FinalResult
+})
+})
+.then(response => response.json())
+.then(data => {
+console.log(data);
+})
+.catch(error => {
+console.error("Błąd:", error);
+});
+
+    </script>
+</body>
+</html>
+
+
+<?php
+
+header("Content-Type: application/json; charset=utf-8");
+
+$input = file_get_contents("php://input");
+$data = json_decode($input, true);
+
+$FinalResult = $data["sentences"] ?? [];
+
+foreach ($FinalResult as $sentence) {
+    
+}
+
+echo json_encode([
+    "success" => true,
+    "sentences" => $FinalResult
+], JSON_UNESCAPED_UNICODE);
+
+
+foreach ($FinalResult as $sentence) {
+   
+}
+
+$tekstDlaLLM = implode(". ", $FinalResult);
+?>
